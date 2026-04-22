@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的皮膚，值得被認真對待 | 20日居家煥膚計畫</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-cream: #FDF6EF;
+            --rose-gold: #E8C4A0;
+            --apricot: #F5E6D3;
+            --gold: #D4A574;
+            --white: #FFFFFF;
+            --text-dark: #5C4A3A;
+            --text-light: #8E7A66;
+            --cta-gradient: linear-gradient(135deg, #E8C4A0 0%, #D4A574 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Noto Serif TC', 'Playfair Display', serif;
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232, 196, 160, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(232, 196, 160, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(232, 196, 160, 0); }
+        }
+
+        @keyframes shimmer {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn-cta {
+            display: inline-block;
+            background: var(--cta-gradient);
+            color: var(--white);
+            padding: 18px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(212, 165, 116, 0.3);
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(212, 165, 116, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 40px 20px 100px;
+            text-align: center;
+            background: radial-gradient(circle at top, #FFF9F3 0%, #FDF6EF 100%);
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: linear-gradient(90deg, #D4A574, #E8C4A0);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            animation: shimmer 1.5s infinite ease-in-out;
+            box-shadow: 0 4px 10px rgba(212, 165, 116, 0.3);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .hero p.subtitle {
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            color: var(--text-light);
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-visual {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        }
+
+        .hero-image {
+            width: 100%;
+            display: block;
+        }
+
+        /* Device Effects */
+        .ripple-container {
+            position: absolute;
+            top: 60%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .ripple {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(212, 165, 116, 0.6);
+            border-radius: 50%;
+            animation: ripple 2s infinite ease-out;
+            margin-left: -50px;
+            margin-top: -50px;
+        }
+
+        .ripple:nth-child(2) { animation-delay: 0.5s; }
+        .ripple:nth-child(3) { animation-delay: 1s; }
+
+        /* Callouts */
+        .callout {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid var(--rose-gold);
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            max-width: 220px;
+            z-index: 10;
+        }
+
+        .callout .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .callout.c1 { top: 20%; left: 5%; }
+        .callout.c2 { top: 35%; right: 5%; }
+        .callout.c3 { bottom: 25%; left: 5%; }
+        .callout.c4 { bottom: 15%; right: 5%; }
+
+        /* Pain Points */
+        .pain-points {
+            background-color: var(--apricot);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .pain-card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 165, 116, 0.15);
+        }
+
+        .pain-card .emoji {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .pain-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .pain-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Features */
+        .features-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+        }
+
+        .feature-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .feature-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .feature-item:nth-child(even) .feature-text {
+            direction: ltr;
+        }
+
+        .feature-image {
+            width: 100%;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .feature-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .feature-text p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* Social Proof */
+        .stats {
+            background: linear-gradient(135deg, #FDF6EF 0%, #F5E6D3 100%);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .stat-item .number {
+            display: block;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: 'Noto Serif TC', serif;
+            margin-bottom: 10px;
+        }
+
+        .stat-item .label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .stats-note {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Plan */
+        .plan {
+            background: var(--apricot);
+        }
+
+        .envelope-card {
+            background: var(--white);
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.05);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid #eee;
+        }
+
+        .envelope-card::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 1px solid var(--rose-gold);
+            pointer-events: none;
+        }
+
+        .handwritten {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        /* CTA Form */
+        .cta-section {
+            background: var(--cta-gradient);
+            padding: 100px 20px;
+            color: var(--white);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .timer {
+            background: rgba(0,0,0,0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .btn-form {
+            width: 100%;
+            margin-top: 20px;
+            background: var(--white);
+            color: var(--gold);
+            font-size: 1.3rem;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        /* Reviews */
+        .reviews {
+            background: var(--white);
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .review-card {
+            background: var(--bg-cream);
+            padding: 40px;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .review-stars {
+            color: #FFD700;
+        }
+
+        .review-author {
+            font-weight: bold;
+        }
+
+        .review-content {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        /* FAQ */
+        .faq {
+            background: var(--bg-cream);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--rose-gold);
+        }
+
+        .faq-question {
+            padding: 20px 30px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease-out;
+            color: var(--text-light);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 30px 25px;
+            max-height: 200px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--apricot);
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+            border-top: 1px solid var(--rose-gold);
+        }
+
+        .footer-links {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            section { padding: 60px 20px; }
+            .feature-item { grid-template-columns: 1fr; gap: 30px; }
+            .feature-item:nth-child(even) { direction: ltr; }
+            .review-grid { grid-template-columns: 1fr; }
+            .callout { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <span class="hero-label">✨ 完全免費體驗 · 限量名額開放中 ✨</span>
+            <h1>你的皮膚，值得被認真對待</h1>
+            <p class="subtitle">不用花大錢去診所，在家3週，讓你的閨蜜問你：「你最近去打了什麼？」</p>
+            
+            <div class="hero-visual reveal">
+                <img src="https://api.kuse.ai/api/folder/v1/file/1fb13f9807f195e01aa112dc45e82a8a9ca2b56eafdca042480afa44858a2dac_4499413.jpeg" alt="Beauty Device Experience" class="hero-image">
+                
+                <div class="ripple-container">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                </div>
+
+                <div class="callout c1">
+                    <div class="dot"></div>
+                    <div>🔹「微電流技術 — 緊緻輪廓」</div>
+                </div>
+                <div class="callout c2">
+                    <div class="dot"></div>
+                    <div>🔹「RF射頻導入 — 撫平細紋」</div>
+                </div>
+                <div class="callout c3">
+                    <div class="dot"></div>
+                    <div>🔹「精華導入 — 吸收率提升3倍」</div>
+                </div>
+                <div class="callout c4">
+                    <div class="dot"></div>
+                    <div>🔹「溫熱舒緩 — 深層清潔」</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 50px;">
+                <a href="#apply" class="btn-cta btn-pulse">立即申請：20日煥膚實測組 →</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Pain Points -->
+    <section class="pain-points">
+        <div class="section-header reveal">
+            <h2>妳是不是也有這些煩惱？</h2>
+        </div>
+        <div class="pain-grid">
+            <div class="pain-card reveal">
+                <span class="emoji">😮‍💨</span>
+                <h3>精華液吸收無感</h3>
+                <p>「花了錢，效果卻不到位」</p>
+            </div>
+            <div class="pain-card reveal">
+                <span class="emoji">😞</span>
+                <h3>臉部輪廓越來越鬆</h3>
+                <p>「照鏡子時，都不敢多看一眼」</p>
+            </div>
+            <div class="pain-card reveal">
+                <span class="emoji">💸</span>
+                <h3>診所療程太貴</h3>
+                <p>「效果好，但根本回不去」</p>
+            </div>
+            <div class="pain-card reveal">
+                <span class="emoji">😴</span>
+                <h3>太忙了，沒時間護膚</h3>
+                <p>「工作壓力大，皮膚第一個出賣你」</p>
+            </div>
+            <div class="pain-card reveal">
+                <span class="emoji">😟</span>
+                <h3>試過很多產品都沒效</h3>
+                <p>「感覺皮膚已經放棄抵抗了」</p>
+            </div>
+            <div class="pain-card reveal">
+                <span class="emoji">🪞</span>
+                <h3>想變美但不感冒打針</h3>
+                <p>「希望有更自然、安全的方式」</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="section-header reveal">
+            <h2>一台儀器，解決5大肌膚問題</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item reveal">
+                <div class="feature-text">
+                    <h3>🌊 微電流緊緻</h3>
+                    <p>模擬臉部肌肉的自然電流，提升緊緻度，改善輪廓線條。</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80&w=800" class="feature-image">
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-text">
+                    <h3>✨ 精華深層導入</h3>
+                    <p>導入效率是一般手塗的3倍，讓精華真正發揮作用。</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800" class="feature-image">
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-text">
+                    <h3>💎 RF射頻拉提</h3>
+                    <p>刺激膠原蛋白再生，從深層撫平細紋。</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1611082212973-206e1233075b?auto=format&fit=crop&q=80&w=800" class="feature-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="stats reveal">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="number" data-target="2847">0</span>
+                <span class="label">女性已完成體驗</span>
+            </div>
+            <div class="stat-item">
+                <span class="number" data-target="93">0</span><span class="number" style="display:inline;">%</span>
+                <span class="label">體驗者在第2週看到改善</span>
+            </div>
+            <div class="stat-item">
+                <span class="number" data-target="4.9">0</span>
+                <span class="label">平均滿意評分</span>
+            </div>
+            <div class="stat-item">
+                <span class="number">0</span><span class="number" style="display:inline;">元</span>
+                <span class="label">體驗費用</span>
+            </div>
+        </div>
+        <p class="stats-note">「我們相信，只要妳親身體驗，就會愛上它。」</p>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews">
+        <div class="section-header reveal">
+            <h2>聽聽她們怎麼說</h2>
+        </div>
+        <div class="review-grid">
+            <div class="review-card reveal">
+                <div class="review-header">
+                    <span class="review-author">黃*馨</span>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <p class="review-content">「原本沒抱太大期待，但這支導入儀真的有驚艷到耶！臉真的有變亮，而且隔天早上起來臉還是潤的。謝謝品牌讓我體驗到好東西 ✨💖🥰」</p>
+            </div>
+            <div class="review-card reveal">
+                <div class="review-header">
+                    <span class="review-author">古*婷</span>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <p class="review-content">「儀器的溫熱感非常舒服，對於提升後續保養品的吸收度確實有感。雖然介面要適應一下，但熟悉後並不影響使用！」</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Form -->
+    <section id="apply" class="cta-section">
+        <div class="form-container reveal">
+            <div class="form-header">
+                <h2>立即申請 · 三週體驗名額</h2>
+                <div class="timer">本批名額將於 <span id="countdown">00:00:00</span> 後截止</div>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label>姓名</label>
+                    <input type="text" placeholder="請輸入您的姓名" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp / 電話</label>
+                    <input type="tel" placeholder="請輸入聯繫電話" required>
+                </div>
+                <div class="form-group">
+                    <label>主要的肌膚問題</label>
+                    <select required>
+                        <option value="">請選擇您的肌膚煩惱</option>
+                        <option value="laxity">臉部鬆弛、輪廓模糊</option>
+                        <option value="wrinkles">細紋、法令紋</option>
+                        <option value="dry">乾燥脫皮、吸收不佳</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-cta btn-form btn-pulse" onclick="window.location.href='https://line.me/ti/p/YeWGBN3ZuJ'; return false;">
+                    我要體驗 →
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="section-header reveal">
+            <h2>妳可能想知道的事</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item reveal">
+                <div class="faq-question">三週體驗是怎麼運作的？ <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">我們會安排小幫手指導你正確使用方式，並在三週內追蹤你的膚況改善。</div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">體驗之後一定要買嗎？ <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="faq-answer">絕對不用。我們只需要給妳三週的時間，讓皮膚說話。妳覺得沒效果，完全不用做決定。</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>擺脫保養品只停留在表層的無感困境，加入這場20天的居家煥膚計畫！<br>
+        讓每一滴精華都能精準滲透🫶🏼</p>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                item.parentElement.classList.toggle('active');
+            });
+        });
+
+        // Countdown Timer
+        function startTimer(duration, display) {
+            let timer = duration, h, m, s;
+            setInterval(function () {
+                h = parseInt(timer / 3600, 10);
+                m = parseInt((timer % 3600) / 60, 10);
+                s = parseInt(timer % 60, 10);
+                display.textContent = (h<10?"0"+h:h)+":"+(m<10?"0"+m:m)+":"+(s<10?"0"+s:s);
+                if (--timer < 0) timer = duration;
+            }, 1000);
+        }
+
+        window.onload = function () {
+            startTimer(60 * 60 * 8, document.querySelector('#countdown'));
+        };
+
+        // Scroll Reveal & CountUp
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                    let nums = reveals[i].querySelectorAll('.number[data-target]');
+                    nums.forEach(num => {
+                        if(!num.classList.contains('counted')) countUp(num);
+                    });
+                }
+            }
+        }
+
+        function countUp(el) {
+            const target = +el.getAttribute('data-target');
+            let current = 0;
+            const update = () => {
+                current += target / 100;
+                if (current < target) {
+                    el.innerText = target % 1 === 0 ? Math.ceil(current) : current.toFixed(1);
+                    setTimeout(update, 10);
+                } else {
+                    el.innerText = target;
+                    el.classList.add('counted');
+                }
+            };
+            update();
+        }
+
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>
